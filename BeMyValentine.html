@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Valentine</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .valentine-container {
+            background: linear-gradient(to right, rgb(255, 147, 226), rgb(255, 213, 249), rgb(255, 213, 249), rgb(255, 147, 226));
+            height: 100vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: rgb(135, 83, 174);
+            text-shadow: 2px 2px white;
+            font-size: 50px;
+        }
+
+        .text {
+            color: rgb(135, 83, 174);
+            text-shadow: 3px 3px white;
+            font-size: 70px;
+            margin-top: 10px;
+        }
+
+        #main-img {
+            max-width: 300px;
+            margin-top: 50px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .yesButton {
+            font-size: 30px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: rgb(1, 186, 1);
+            color: white;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .noButton {
+            font-size: 30px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #eb0101;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            white-space: nowrap; /* Ensures text doesn't wrap to the next line */
+        }
+
+        .yesButton:hover {
+            background-color: rgb(27, 209, 27);
+        }
+
+        .noButton:hover {
+            background-color: #ff2e2e;
+        }
+    </style>
+</head>
+<body>
+
+<div id="valentine-container" class="valentine-container">
+    <img id="main-img" alt="michi kiss" src="https://media1.tenor.com/m/o_5RQarGvJ0AAAAC/kiss.gif"/>
+    <h1>Will you be my Valentine?</h1>
+    <div class="button-container">
+        <button id="yesButton" class="yesButton">Yes</button>
+        <button id="noButton" class="noButton">Nop</button>
+    </div>
+</div>
+
+<script>
+    const phrases = [
+        "Nop",
+        "U sure???",
+        "U really sure???",
+        "Please???",
+        "So... No???",
+        "U sure???",
+        "I know you wanna :)",
+        "So..."
+    ];
+
+    let noCount = 0;
+    let yesPressed = false;
+
+    function handleNoClick() {
+        noCount = (noCount + 1) % phrases.length;
+        updateNoButtonText();
+        updateYesButtonSize();
+    }
+
+    function getNoButtonText() {
+        return phrases[noCount];
+    }
+
+    function updateNoButtonText() {
+        document.getElementById("noButton").innerText = getNoButtonText();
+    }
+
+    function updateYesButtonSize() {
+        const yesButton = document.getElementById("yesButton");
+        const newSize = parseInt(window.getComputedStyle(yesButton).fontSize) + 10;
+        yesButton.style.fontSize = newSize + "px";
+    }
+
+    document.getElementById("yesButton").addEventListener("click", function () {
+        yesPressed = true;
+        updateView();
+    });
+
+    document.getElementById("noButton").addEventListener("click", handleNoClick);
+
+    function updateView() {
+        const valentineContainer = document.getElementById("valentine-container");
+
+        if (yesPressed) {
+            valentineContainer.innerHTML = `
+                <img id="main-img" alt="michikising" src="https://media1.tenor.com/m/06026DSpi60AAAAd/happy-cat.gif"/>
+                <h1 class="text">Valentine's Day is going to be extra special with you!<h1>
+            `;
+        } else {
+            valentineContainer.innerHTML = `
+                <img id="main-img" alt="michi kiss" src="https://media1.tenor.com/m/o_5RQarGvJ0AAAAC/kiss.gif"/>
+                <h1>Will you be my valentine?</h1>
+                <div class="button-container">
+                    <button id="yesButton" class="yesButton">Yes</button>
+                    <button id="noButton" class="noButton">${getNoButtonText()}</button>
+                </div>
+            `;
+            document.getElementById("yesButton").addEventListener("click", function () {
+                yesPressed = true;
+                updateView();
+            });
+            document.getElementById("noButton").addEventListener("click", handleNoClick);
+        }
+    }
+    updateView();
+</script>
+
+</body>
+</html>
